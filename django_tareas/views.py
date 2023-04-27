@@ -236,26 +236,45 @@ def publicarComentario(request):
     })
 
 def descargarReporteUsuarios(request):
-    """
-    PREGUNTA 1
-    En esta funcion debe generar un pdf con utilizando la libreria reportlab
-    Este reporte debe contener la informacion de todos los usuarios a excepcion
-    de la contraseña y debe mostrar tambien la cantidad de tareas de cada 
-    usuarios (Solo la cantidad no es necesario la descripcion de todas)
+    # Obtener los datos de los usuarios
+    usuarios = User.objects.all()
 
-    Usuarios Nombre Apellido
-    Username        Fecha de ingreso       Numero de celular
-    Cantidad de tareas              Tipo de usuario
+    # Crear un archivo PDF
+    nombreArchivo = 'reporteUsuarios.pdf'
+    pdf = canvas.Canvas(nombreArchivo, pagesize=letter)
 
-    Agregar una descripcion de cabecera de la siguiente forma
+    # Dibujar el encabezado de reporte
+    pdf.drawImage('logoApp.png', 40, 720, width=100, height=30)
+    pdf.drawImage('logoPUCP.png', 480, 720, width=50, height=50)
+    pdf.setFont('Helvetica-Bold', 16)
+    pdf.drawCentredString(300, 680, 'Reporte de usuarios')
+    pdf.line(30, 670, 550, 670)
 
-    Logo de DJANGO      Titulo: Reporte de usuarios     Logo de PUCP
-    Fecha de creacion del reporte
-    Cantidad de usuarios
-    Usuario que genera el reporte
-    Tipo de usuarios que genera el reporte
+    # Escribir los datos del encabezado del reporte
+    fecha = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+    pdf.drawString(30, 640, f'Fecha de creación del reporte: {fecha}')
+    pdf.drawString(30, 620, f'Cantidad de usuarios: {len(usuarios)}')
+    pdf.drawString(30, 600, f'Usuario que genera el reporte: {request.user.username}')
+    pdf.drawString(30, 580, f'Tipo de usuarios que genera el reporte: {request.user.datosusuario.tipoUsuario}')
+
+    # Escribir los datos del usuario en el PDF
+    pdf.setFont('Helvetica', 12)
+    pdf.drawString(50, 700, 'Nombre')
+    pdf.drawString(200, 700, 'Email')
+    pdf.drawString(350, 700, 'Fecha de registro')
+    pdf.line(30, 690, 550, 690)
+    y = 670
+    for usuario in usuarios:
+        pdf.drawString(50, y, usuario.username)
+        pdf.drawString(200, y, usuario.email)
+        pdf.drawString(350, y, str(usuario.date_joined))
+        y -= 20
+
+    # Guardar y cerrar el archivo PDF 
+    pdf.showPage()
+    pdf.save()
     
-    """
+    # Devolver el archivo PDF para descargar 
     nombreArchivo = 'reporteUsuarios.pdf'
     reporteUsuarios=open(nombreArchivo,'rb')
     return FileResponse(reporteUsuarios,as_attachment=True)
