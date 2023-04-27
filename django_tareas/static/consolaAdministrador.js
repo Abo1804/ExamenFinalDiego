@@ -1,25 +1,28 @@
 function editarUsuario(idEditar)
 {
     console.log(idEditar)
-    /*
-    PREGUNTA 3
-    Capturar informacion del usuario desde base de datos y llenar
-    inputs dentro de la ventana modal de editar usuario, permiter que
-    el usuario pueda editar los datos. No olvida de cargar el ID en el innerHTML
-    dentro del elemento H1 cuyo id es cargaId
-
-    Los campos a editar son:
-    Nro de celular
-    Profesion del usuario
-
-    El resto de campos:
-    Nombre
-    Apellido
-    Email
-    Fecha Ingreso
-    Colocarlos como solo lectura (propiedad readonly en el tag HTML)
     
-    */
+    // Realizar la peticion fetch para obtener la informacion del usuario
+    fetch('/api/usuarios/' + idEditar)
+    .then(response => response.json())
+    .then(data => {
+
+        // Llenar inputs con información del usuario
+        document.getElementById('nombre').value = data.nombre;
+        document.getElementById('nombre').readOnly = true;
+        document.getElementById('apellido').value = data.apellido;
+        document.getElementById('apellido').readOnly = true;
+        document.getElementById('email').value = data.email;
+        document.getElementById('email').readOnly = true;
+        document.getElementById('fechaIngreso').value = data.fechaIngreso;
+        document.getElementById('fechaIngreso').readOnly = true;
+        document.getElementById('celular').value = data.celular;
+        document.getElementById('profesion').value = data.profesion;
+
+        // Colocar ID en el elemento H1
+        document.getElementById('cargaId').innerHTML = data.id;
+    })
+    .catch(error => console.log(error));
 }
 
 function actualizarUsuario()
