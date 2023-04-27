@@ -10,6 +10,7 @@ import json
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.pagesizes import letter
 
 # Create your views here.
 def index(request):
@@ -273,7 +274,7 @@ def descargarReporteUsuarios(request):
     # Guardar y cerrar el archivo PDF 
     pdf.showPage()
     pdf.save()
-    
+
     # Devolver el archivo PDF para descargar 
     nombreArchivo = 'reporteUsuarios.pdf'
     reporteUsuarios=open(nombreArchivo,'rb')

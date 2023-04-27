@@ -97,22 +97,32 @@ function getCookie(name)
 function finalizarTarea(idFinalizar)
 {
     console.log(idFinalizar)
-    /*
-    Pregunta 5
-    a.
-    En esta funcion se debe de postear informacion y actualizar una celda para la tarea correspondiente
-    Al capturar el idFinalizar se puede obtener el id de la tarea a traves del metodo
-    split en javascript (investigar), con dicho id se puede armar el string 'estado' + id
-    para capturar el elemento correspondiente a la celda del estado, a traves de su propiedad 
-    innerHTML se puede cambiar el valor.
+    // Obtener el ID de la tarea
+    var tareaId = idFinalizar.split('-')[1];
 
-    b.
-    Los cambios realizados en a solo se veran en el DOM, al actualizarlo todo volvera
-    a su valor inicial, por lo que el siguiente paso es postear informacion al servidor
-    Utilizar una peticion post y acceder a la tarea con su respectivo id y cambiar el estado
-    de la tarea. Debido a que se usa la peticion fetch la pagina no se recargara,
-    pero si la recarga manualmente no observara cambios ya que el estado de la tarea
-    ha sido modificada tambien en base de datos
-    
-    */
+    // Actualizar el estado en el DOM
+    var estadoCelda = document.getElementById('estado' + tareaId);
+    estadoCelda.innerHTML = 'Finalizada';
+
+    // Actualizar el estado en la base de datos
+    var data = {estado: 'Finalizada'};
+    fetch('/api/tareas/' + tareaId + '/', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+        throw new Error('La respuesta de la red no era correcta');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Tarea actualizada:', data);
+    })
+    .catch(error => {
+        console.error('Error al actualizar tarea:', error);
+    });
 }
