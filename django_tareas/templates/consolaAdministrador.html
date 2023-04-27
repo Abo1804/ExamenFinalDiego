@@ -155,11 +155,31 @@
             </div>
             <div class="modal-body">
                 Editar usuario
-                <!--
-                    PREGUNTA 2
-                    Crear los inputs necesarios para poder cargar la informacion
-                    del usuario, indicar los label's de los campos apropiadamente
-                -->
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombreUsuario" name="nombre" class="form-control" value="Diego" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellidoUsuario" name="apellido" class="form-control" value="Reyes" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="emailUsuario" name="email" class="form-control" value="diego.reyes@example.com" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="fecha">Fecha de ingreso:</label>
+                    <input type="date" id="fechaIngreso" name="fecha" class="form-control" value="2022-01-01" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="celular">Nro de celular:</label>
+                    <input type="text" id="nroCelular" name="celular" class="form-control" value="" placeholder="Ingresa el nro de celular aquí">
+                  </div>
+                  <div class="form-group">
+                    <label for="profesion">Profesión del usuario:</label>
+                    <input type="text" id="profesionUsuario" name="profesion" class="form-control" value="" placeholder="Ingresa la profesión aquí">
+                  </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
